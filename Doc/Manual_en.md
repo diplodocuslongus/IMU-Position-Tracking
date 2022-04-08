@@ -18,17 +18,16 @@
 - scipy
 - matplotlib
 
-## 项目结构
-- `main.py`：主算法，带有一个从手机接收数据并可视化的示例。每次运行会自动保存数据到`data.txt`中，`receive_data()`的参数设为`mode='file'`即可从文件读取。
-- `plotlib.py`：可视化的简单封装。
-- `mathlib.py`：矩阵操作和滤波器的封装。
-- `butter.py`：实时巴特沃斯滤波器，详情见[这里](https://github.com/keikun555/Butter)。目前没有使用。
-- `main.ipynb`：开发使用。
-- `/Ref`：
-  - *Using Inertial Sensors for Position and Orientation Estimation*是一个基本教程，包含了卡尔曼滤波的较为详细的描述。
-  - 其它为修正算法相关文献。
-
-
+## Project structure
+- `main.py`: the main algorithm, with an example that receives data from the phone and visualizes it. Each run will automatically save the data to `data.txt`, the parameter of `receive_data()` is set to `mode='file'` to read from the file.
+- `plotlib.py`: Simple wrapper for visualization.
+- `mathlib.py`: wrapper for matrix operations and filters.
+- `butter.py`: Real-time Butterworth filter, see [here](https://github.com/keikun555/Butter). Currently not used.
+- `main.ipynb`: development use.
+- `/Ref`:
+   - *Using Inertial Sensors for Position and Orientation Estimation* is a basic tutorial that contains a more detailed description of Kalman filtering.
+   - Others are literatures related to correction algorithms. 
+ 
 # main.py
 
 ## 接口
@@ -83,7 +82,7 @@
     假设设备测量前后都静止，去除地面坐标系加速度的偏差，并通过一个带通滤波器（可选）。返回修正后的加速度数据。
 
   - `a_nav`
-    - 地面坐标系加速度数据，$(n\times 3)$numpy数组。
+    - 地面坐标系加速度数据，$$(n\times 3)$$ numpy数组。
   - `threshold`
     - 检测静止状态的加速度阈值，不建议太低。
   - `filter`
@@ -113,15 +112,16 @@
       - 地面坐标系速度数据，$(n\times 3)$numpy数组。
 
 
-## 使用
-1. 初始化`IMUTracker`类
-2. 将初始化数据输入`initialize`方法
-3. 将`initialize`返回的list，同传感器数据一起传入`attitudeTrack`方法
-4. 使用`removeAccErr`方法修正`attitudeTrack`返回的加速度数据
-5. 使用`zupt`方法计算速度
-6. 使用`positionTrack`方法对速度和加速度数据进行积分，得到位移
+## Usage
+1. Initialize the `IMUTracker` class
+2. Input initialization data into the `initialize` method
+3. Pass the list returned by `initialize` to the `attitudeTrack` method together with the sensor data
+4. Use the `removeAccErr` method to correct the acceleration data returned by `attitudeTrack`
+5. Calculate the speed using the `zupt` method
+6. Integrate the velocity and acceleration data using the `positionTrack` method to get the displacement
 
-## 示例
+
+## Example
 ```python
 data = sensor.getData()
 tracker = IMUTracker(sampling=100)
@@ -138,7 +138,7 @@ v = tracker.zupt(a_nav_filtered, threshold=0.2)
 p = tracker.positionTrack(a_nav_filtered, v)
 ```
 
-## 流程图
+## Flowchart
 <div align=center>
     <img src="./dataflow.svg" height=600/>
 </div>
