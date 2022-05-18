@@ -11,7 +11,7 @@ class IMUTracker:
     def __init__(self, sampling, data_order={'w': 1, 'a': 2, 'm': 3}):
         '''
         @param sampling: sampling rate of the IMU, in Hz
-        @param tinit: initialization time where the device is expected to be stay still, in second
+        @param tinit: initialization time where the device is expected to stay still, in second
         @param data_order: specify the order of data in the data array
         '''
 
@@ -314,7 +314,7 @@ def receive_data(mode='tcp'):
         for line in r.receive():
             file.write(line)
             data.append(line.split(','))
-        data = np.array(data, dtype=np.float)
+        data = np.array(data, dtype=float)
         return data
 
     if mode == 'file':
@@ -330,6 +330,7 @@ def receive_data(mode='tcp'):
 
 def plot_trajectory():
     tracker = IMUTracker(sampling=100)
+    #data = receive_data('tcp')    # toggle data source between 'tcp' and 'file' here
     data = receive_data('file')    # toggle data source between 'tcp' and 'file' here
 
     print('initializing...')
@@ -343,7 +344,7 @@ def plot_trajectory():
 
     # Acceleration correction step
     a_nav_filtered = tracker.removeAccErr(a_nav, filter=False)
-    # plot3([a_nav, a_nav_filtered])
+    plot3([a_nav, a_nav_filtered])
 
     # ZUPT step
     v = tracker.zupt(a_nav_filtered, threshold=0.2)

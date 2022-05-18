@@ -10,5 +10,16 @@
 - `/Ref`: Some paper found on the internet that is helpful.
 - `/Doc`: an Algorithm description (you can view it in html as github doesn't support markdown latex extension) and an API documentation in Chinese.
 
+# Usage
+Make sure the server (the host computer) is able to receive data from the HyperIMU app (see below Data Source).
+Run the main.py, start sending data from the HyperIMU app (press the green button), move the phone, stop sending data (press again the button) and the plot will appear.
+
 # Data Source
 I use an APP called [HyperIMU](https://play.google.com/store/apps/details?id=com.ianovir.hyper_imu) to pull (uncalibrated) data from my phone. Data is sent through TCP and received using `data_receiver.py`.
+
+Connection to HyperIMU app:
+Use a hotspot for the server (linux box host).
+Get host (server) ip address with ip a
+ex: 10.42.0.1
+Connect phone with HyperIMU App to that hotspot, set the IP address in the app's settings (3 bars top left -> settings)
+Run the demo.py (if testing with the HyperIMUserver) and then press the green button, data will stream in the terminal.
